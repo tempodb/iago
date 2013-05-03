@@ -18,7 +18,7 @@ package com.twitter.parrot.server
 import com.twitter.finagle.Service
 import com.twitter.finagle.thrift.ThriftClientRequest
 import com.twitter.parrot.config.ParrotServerConfig
-import com.twitter.util.{Future, Promise}
+import com.twitter.util.{Future, Promise, Time}
 
 class ParrotThriftService(config: ParrotServerConfig[ParrotRequest, Array[Byte]])
   extends ParrotService[ParrotRequest, Array[Byte]](config)
@@ -36,8 +36,8 @@ class ParrotThriftServiceWrapper(val service: ParrotService[ParrotRequest, Array
     response
   }
 
-  override def release() {
-    service.release()
+  override def close(deadline: Time): Future[Unit] = {
+    service.close(deadline)
   }
 
   override def isAvailable = service.isAvailable

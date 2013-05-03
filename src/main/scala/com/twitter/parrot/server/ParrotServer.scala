@@ -73,7 +73,7 @@ class ParrotServerImpl[Req <: ParrotRequest, Rep](val config: ParrotServerConfig
     if (job != null) {
       RecordProcessorFactory.getProcessorForJob(job).shutdown()
     }
-    ServiceTracker.shutdown()
+    //ServiceTracker.shutdown()
     thriftServer.shutdown()
     Future.Void
   }

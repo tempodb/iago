@@ -118,6 +118,6 @@ class FinagleTransport(config: ParrotServerConfig[ParrotRequest, HttpResponse])
   override def createService(config: ParrotServerConfig[ParrotRequest, HttpResponse]) = new ParrotHttpService(config)
 
   override def shutdown() {
-    clients.values.foreach { _.release() }
+    clients.values.foreach { _.close() }
   }
 }

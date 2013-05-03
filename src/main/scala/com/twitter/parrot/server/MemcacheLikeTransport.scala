@@ -80,6 +80,6 @@ abstract class MemcacheLikeTransport[Codec, Req, Rep](
   }
 
   override def shutdown() {
-    clients.values.foreach { _.release() }
+    clients.values.foreach { _.close() }
   }
 }

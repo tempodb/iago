@@ -95,7 +95,7 @@ class ParrotFeeder(config: ParrotFeederConfig) extends Service {
   def shutdown() {
     cluster.shutdown()
     poller.shutdown()
-    ServiceTracker.shutdown()
+    //ServiceTracker.shutdown()
   }
 
   private[this] def validatePreconditions(): Boolean = {

@@ -87,7 +87,7 @@ class RemoteParrot(val name: String,
     consumer.isShutdown.set(true)
     println("shutting down client")
     waitFor(client.shutdown())
-    service.release
+    service.close()
   }
 
   def isConnected() = {

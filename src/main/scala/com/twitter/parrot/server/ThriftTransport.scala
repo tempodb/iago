@@ -41,7 +41,7 @@ class ThriftTransport(config: Option[ParrotServerConfig[_, _]] = None) extends P
     .hostConnectionMaxLifeTime(Duration(config.get.hostConnectionMaxLifeTimeInMs, TimeUnit.MILLISECONDS))
     .reportTo(new OstrichStatsReceiver)
 
-  override protected[server] def sendRequest(request: ParrotRequest): Future[Array[Byte]] = {
+  def sendRequest(request: ParrotRequest): Future[Array[Byte]] = {
     val key = request.target.host + ":" + request.target.port
     val service = clients.getOrElseUpdate(key, builder.hosts(key).build())
 

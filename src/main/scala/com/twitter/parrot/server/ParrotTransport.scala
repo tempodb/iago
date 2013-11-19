@@ -34,7 +34,7 @@ trait ParrotTransport[Req <: ParrotRequest, Rep] extends Service[Req, Rep] {
       handlers foreach { _(k) }
     }
 
-  protected[server] def sendRequest(request: Req): Future[Rep]
+  def sendRequest(request: Req): Future[Rep]
 
   def createService(config: ParrotServerConfig[Req, Rep]) = new ParrotService[Req, Rep](config)
 
@@ -60,7 +60,7 @@ trait ParrotTransport[Req <: ParrotRequest, Rep] extends Service[Req, Rep] {
   private[this] def trustAllCertificates(): Array[TrustManager] = Array(new IgnorantTrustManager)
 
   // Random IP generation support
-  private[server] val rnd = new Random(Time.now.inMillis)
-  private[server] def octet = rnd.nextInt(254) + 1
-  private[server] def randomIp = "%d.%d.%d.%d".format(octet, octet, octet, octet)
+  private val rnd = new Random(Time.now.inMillis)
+  private def octet = rnd.nextInt(254) + 1
+  def randomIp = "%d.%d.%d.%d".format(octet, octet, octet, octet)
 }

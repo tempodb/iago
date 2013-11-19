@@ -27,7 +27,7 @@ import org.jboss.netty.handler.codec.http.HttpResponse
 class DumbTransport() extends ParrotTransport[ParrotRequest, HttpResponse] {
   val counter = new AtomicLong(0)
 
-  override protected[server] def sendRequest(request: ParrotRequest): Future[HttpResponse] = {
+  def sendRequest(request: ParrotRequest): Future[HttpResponse] = {
     counter.getAndIncrement
     new Promise[HttpResponse]
   }

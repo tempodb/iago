@@ -56,7 +56,7 @@ abstract class MemcacheLikeTransport[Codec, Req, Rep](
     }
   }
 
-  override protected[server] def sendRequest(request: ParrotRequest): Future[Rep] = {
+  def sendRequest(request: ParrotRequest): Future[Rep] = {
     val key = request.target.host + ":" + request.target.port
     val service = clients.getOrElseUpdate(key, buildClient(key))
 

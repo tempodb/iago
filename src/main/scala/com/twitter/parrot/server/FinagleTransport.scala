@@ -20,6 +20,7 @@ import com.twitter.finagle.builder.ClientBuilder
 import com.twitter.finagle.http.Http
 import com.twitter.finagle.stats.OstrichStatsReceiver
 import com.twitter.finagle.{ServiceFactory, Service}
+import com.twitter.ostrich.stats.Stats
 import com.twitter.parrot.config.ParrotServerConfig
 import com.twitter.parrot.thrift.TargetHost
 import com.twitter.util.{Promise, Duration, Future}
@@ -48,13 +49,13 @@ class FinagleTransport(config: ParrotServerConfig[ParrotRequest, HttpResponse])
     .tcpConnectTimeout(Duration(config.tcpConnectTimeoutInMs, TimeUnit.MILLISECONDS))
     .keepAlive(true)
 //    .logger(JLogger.getLogger("com.twitter.finagle")) // enable for extreme debugging
-    .reportTo(new OstrichStatsReceiver)
+    .reportTo(new OstrichStatsReceiver(Stats.get(config.statsName)))
 
   var allRequests = 0
 
   override def stats(response: HttpResponse) = Seq(response.getStatus.getCode.toString)
 
-  override protected[server] def sendRequest(request: ParrotRequest): Future[HttpResponse] = {
+  def sendRequest(request: ParrotRequest): Future[HttpResponse] = {
     val client = getClientForHost(request.target)
     val requestMethod = request.method match {
       case "POST" => HttpMethod.POST

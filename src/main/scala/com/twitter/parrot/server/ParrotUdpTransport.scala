@@ -78,7 +78,7 @@ trait ParrotUdpTransport[Req, Rep] extends ParrotTransport[ParrotRequest, Rep] {
 
   val timer = new FinagleTimer(new HashedWheelTimer(100, TimeUnit.MILLISECONDS))
 
-  protected[server] def sendRequest(request: ParrotRequest): Future[Rep] = {
+  def sendRequest(request: ParrotRequest): Future[Rep] = {
     val host = request.target.host
     val port = request.target.port
     val data = request.rawLine
